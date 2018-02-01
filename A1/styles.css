@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.row {
+  height: 40px;
+  border: 1px solid black;
+}
+
+.col {
+  width: 40px;
+  border: 1px solid black;
+}

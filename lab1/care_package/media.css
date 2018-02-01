@@ -1,0 +1,56 @@
+@media only screen and (max-width: 480px) {
+  ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .size2,
+  .size3 {
+    width: 100%;
+  }
+
+  section {
+    order: 2;
+  }
+
+  nav {
+    order: 4;
+  }
+
+  article {
+    order: 3;
+  }
+}
+
+@media only screen and (min-width: 481px) {
+  ul {
+    justify-content: space-around;
+  }
+
+  .size2 {
+    width: 60%;
+  }
+
+  .size3 {
+    width: 40%;
+    float: right;
+  }
+
+  nav {
+    order: 2;
+  }
+
+  article {
+    order: 3;
+  }
+
+  section {
+    order: 4;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  ul {
+    width: 70%;
+  }
+}
