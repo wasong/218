@@ -1,5 +1,5 @@
 let state = {
-  totalUsers: 1,
+  lastUpdated: 0,
 }
 
 const setState = (newState) => {
@@ -9,31 +9,24 @@ const setState = (newState) => {
   }
 }
 
-const cloneForm = () => {
-  const form = document.querySelector(`#user${state.totalUsers}`)
-  const newForm = form.cloneNode(true)
-  const children = newForm.children
+const schema = ['first', 'last', 'birthday']
 
-  const firstLabel = children[`firstLabel${state.totalUsers}`]
-  const first = children[`first${state.totalUsers}`]
+const getInputs = (userID = 0) => {
+  const elems = document.querySelector(`#user-${userID}`)
+  const inputs = []
 
-  const lastLabel = children[`lastLabel${state.totalUsers}`]
-  const last = children[`last${state.totalUsers}`]
+  // query for inputs
+  schema.forEach((prop) => {
+    const elem = elems.querySelector(`input[name="${prop}"]`)
+    inputs.push(elem)
+  })
 
-  const id = state.totalUsers + 1
-  setState({ totalUsers: id })
+  const user = {}
+  // save inputs
+  inputs.forEach((input) => {
+    user[input.name] = input.value
+  })
 
-  firstLabel.setAttribute('id', `firstLabel${id}`)
-  firstLabel.setAttribute('for', `first${id}`)
-  first.setAttribute('id', `first${id}`)
-  first.setAttribute('name', `first${id}`)
-
-  lastLabel.setAttribute('id', `lastLabel${id}`)
-  lastLabel.setAttribute('for', `last${id}`)
-  last.setAttribute('id', `last${id}`)
-  last.setAttribute('name', `last${id}`)
-
-  newForm.setAttribute('id', `user${id}`)
-
-  document.querySelector('#root').appendChild(newForm)
+  setState({ [userID]: user })
+  console.log(state)
 }

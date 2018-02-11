@@ -3,11 +3,30 @@ const path = require('path')
 const qs = require('querystring');
 
 const formPage = fs.readFileSync(path.join(__dirname, 'form.html'))
+const formStyles = fs.readFileSync(path.join(__dirname, 'form.css'))
 const formScript = fs.readFileSync(path.join(__dirname, 'form.js'))
 
 const handleGET = (req, res) => {
-  if (req.url === '/form.js') res.end(formScript)
-  if (req.url === '/') res.end(formPage)
+  switch (req.url) {
+    case '/form.js':
+      res.writeHead(200, {"Content-Type": "application/javascript"})
+      res.write(formScript)
+      res.end()
+      return
+    case '/form.css':
+    res.writeHead(200, {"Content-Type": "text/css"})
+      res.write(formStyles)
+      res.end()
+      return
+    case '/':
+    res.writeHead(200, {"Content-Type": "text/html"})
+      res.write(formPage)
+      res.end()
+      return
+    default:
+      res.write(formPage)
+      res.end()
+  }
 }
 
 const handlePOST = (req, res) => {
