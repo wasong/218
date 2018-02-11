@@ -44,6 +44,22 @@ const addUser = () => {
   setState({ lastUser })
 }
 
-const save = () => {
+const save = async () => {
   for(let i = 0; i <= state.lastUser; i++) getInputs(i)
+  let json = null
+  try {
+    const res = await fetch('/', {
+      method: 'POST',
+      headers: {
+        'user-agent': 'Mozilla/4.0 MDN Example',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(state)
+    })
+
+    json = await res.json()
+  } catch(err) {
+    console.log(err)
+  }
+  console.log(json)
 }

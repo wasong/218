@@ -37,9 +37,8 @@ const handlePOST = (req, res) => {
     })
 
     req.on('end', () => {
-      const post = qs.parse(body)
-      console.log(post)
-      res.end(formPage)
+      console.log(body)
+      res.end(JSON.stringify({ hi: 'hi' }))
     })
   }
 }
