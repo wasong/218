@@ -1,5 +1,5 @@
 let state = {
-  lastUpdated: 0,
+  lastUser: 0,
 }
 
 const setState = (newState) => {
@@ -7,6 +7,7 @@ const setState = (newState) => {
     ...state,
     ...newState,
   }
+  // console.log(state)
 }
 
 const schema = ['first', 'last', 'birthday']
@@ -28,5 +29,21 @@ const getInputs = (userID = 0) => {
   })
 
   setState({ [userID]: user })
-  console.log(state)
+}
+
+const addUser = () => {
+  const lastUser = state.lastUser + 1
+  const template = document.querySelector('#template')
+  const form = template.cloneNode(true)
+  form.setAttribute('class', 'card')
+  form.setAttribute('id', `user-${lastUser}`)
+
+  const app = document.querySelector(`#app`)
+
+  app.append(form)
+  setState({ lastUser })
+}
+
+const save = () => {
+  for(let i = 0; i <= state.lastUser; i++) getInputs(i)
 }

@@ -37,7 +37,7 @@ body {
   box-shadow: 0 2px 4px 0 rgba(165, 172, 175, 0.5);
   background: #fff;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 0 auto 15px;
 }
 
 input {
@@ -73,4 +73,8 @@ input {
   background: #fff;
   color: #444;
   cursor: pointer;
+}
+
+.template {
+  display: none;
 }
