@@ -9,54 +9,31 @@ const setState = (newState) => {
   }
 }
 
-// const createUserElement = (i) => {
-//   const user = document.createElement('div')
-//   user.setAttribute('id', `user${i}`)
-//   return user
-// }
-//
-// const createNameElement = (i) => {
-//   const id = `name${i}`
-//   const container = document.createElement('div')
-//   let label = document.createElement('label')
-//   label.setAttribute('for', id)
-//   label.setAttribute('innerText', `Name:`)
-//
-//   let name = document.createElement('input')
-//   name.setAttribute('id', id)
-//   name.setAttribute('type', `text:`)
-//   name.setAttribute('name', id)
-//
-//   container.appendChild(label)
-//   console.log(container)
-//   container.appendChild(name)
-//
-//   return container
-// }
-//
-// const addOnChange = (node) => {
-//   node.addEventListener('change', (event) => {
-//     const { value, name } = event.target
-//     setState({ [name]: value })
-//     console.log(value, state)
-//   })
-// }
-//
-// const addUser = () => {
-//   const parent = createUserElement(state.totalUsers)
-//   parent.appendChild(createNameElement(state.totalUsers))
-//   document.querySelector('#root').appendChild(parent)
-//
-//   addOnChange(parent)
-//   setState({
-//     totalUsers: state.totalUsers + 1,
-//   })
-// }
-
 const cloneForm = () => {
   const form = document.querySelector(`#user${state.totalUsers}`)
   const newForm = form.cloneNode(true)
+  const children = newForm.children
 
+  const firstLabel = children[`firstLabel${state.totalUsers}`]
+  const first = children[`first${state.totalUsers}`]
 
-  console.log(newForm)
+  const lastLabel = children[`lastLabel${state.totalUsers}`]
+  const last = children[`last${state.totalUsers}`]
+
+  const id = state.totalUsers + 1
+  setState({ totalUsers: id })
+
+  firstLabel.setAttribute('id', `firstLabel${id}`)
+  firstLabel.setAttribute('for', `first${id}`)
+  first.setAttribute('id', `first${id}`)
+  first.setAttribute('name', `first${id}`)
+
+  lastLabel.setAttribute('id', `lastLabel${id}`)
+  lastLabel.setAttribute('for', `last${id}`)
+  last.setAttribute('id', `last${id}`)
+  last.setAttribute('name', `last${id}`)
+
+  newForm.setAttribute('id', `user${id}`)
+
+  document.querySelector('#root').appendChild(newForm)
 }

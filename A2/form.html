@@ -6,9 +6,23 @@
   </head>
   <body>
     THIS IS MY FORM PAGE
-    <div id="user1">
-      <label for="name1">Name: </label>
-      <input id="name1" type="text" />
+    <div id="root">
+      <div id="user1">
+        <label for="first1">First Name: </label>
+        <input id="first1" type="text" name="first1" />
+
+        <label for="last1">Last Name: </label>
+        <input id="last1" type="text" name="last1" />
+
+        <div>
+          <label for="birthday1">Birthday: </label>
+          <input id="birthday1" type="text" name="birthday1" />
+        </div>
+        <div>
+          <label for="email1">Email: </label>
+          <input id="email1" type="text" name="email1" />
+        </div>
+      </div>
     </div>
     <button onclick="cloneForm()">Add User</button>
     <script src="/form.js"></script>
