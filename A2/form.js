@@ -51,7 +51,6 @@ const save = async () => {
     const res = await fetch('/', {
       method: 'POST',
       headers: {
-        'user-agent': 'Mozilla/4.0 MDN Example',
         'content-type': 'application/json'
       },
       body: JSON.stringify(state)

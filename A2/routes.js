@@ -6,26 +6,25 @@ const formPage = fs.readFileSync(path.join(__dirname, 'form.html'))
 const formStyles = fs.readFileSync(path.join(__dirname, 'form.css'))
 const formScript = fs.readFileSync(path.join(__dirname, 'form.js'))
 
+const sendFile = (contentType, file, res) => {
+  res.writeHead(200, { "Content-Type": contentType })
+  res.write(file)
+  res.end()
+}
+
 const handleGET = (req, res) => {
   switch (req.url) {
     case '/form.js':
-      res.writeHead(200, {"Content-Type": "application/javascript"})
-      res.write(formScript)
-      res.end()
+      sendFile("application/javascript", formScript, res)
       return
     case '/form.css':
-    res.writeHead(200, {"Content-Type": "text/css"})
-      res.write(formStyles)
-      res.end()
+      sendFile("text/css", formStyles, res)
       return
     case '/':
-    res.writeHead(200, {"Content-Type": "text/html"})
-      res.write(formPage)
-      res.end()
+      sendFile("text/html", formPage, res)
       return
     default:
-      res.write(formPage)
-      res.end()
+      sendFile("text/html", formPage, res)
   }
 }
 
