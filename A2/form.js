@@ -44,6 +44,11 @@ const addUser = () => {
   setState({ lastUser })
 }
 
+const log = async () => {
+  for(let i = 0; i <= state.lastUser; i++) getInputs(i)
+  console.log(state)
+}
+
 const save = async () => {
   for(let i = 0; i <= state.lastUser; i++) getInputs(i)
   let json = null
