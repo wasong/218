@@ -47,7 +47,8 @@ const handlePOST = (req, res) => {
         } else {
           // read file and parse it
           const fileContents = fs.readFileSync(path.join(__dirname, 'data', fileName))
-          console.log(JSON.parse(fileContents.toString()))
+          const parsedData = JSON.parse(fileContents.toString())
+          
         }
       }
 

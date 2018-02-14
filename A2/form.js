@@ -1,5 +1,5 @@
 let state = {
-  lastUser: 0,
+  lastUser: 1,
 }
 
 const setState = (newState) => {
@@ -12,7 +12,7 @@ const setState = (newState) => {
 
 const schema = ['first', 'last', 'birthday']
 
-const getInputs = (userID = 0) => {
+const getInputs = (userID = 1) => {
   const elems = document.querySelector(`#user-${userID}`)
   const inputs = []
 
@@ -22,7 +22,9 @@ const getInputs = (userID = 0) => {
     inputs.push(elem)
   })
 
-  const user = {}
+  const user = {
+    id: userID,
+  }
   // save inputs
   inputs.forEach((input) => {
     user[input.name] = input.value
@@ -45,12 +47,24 @@ const addUser = () => {
 }
 
 const log = async () => {
-  for(let i = 0; i <= state.lastUser; i++) getInputs(i)
+  for(let i = 1; i <= state.lastUser; i++) getInputs(i)
   console.log(state)
 }
 
+const checkIfEmpty = () => {
+  const sum = schema.reduce((acc, prop) => acc += state[1][prop], '')
+  return state.lastUser === 1 && sum === ''
+}
+
 const save = async () => {
-  for(let i = 0; i <= state.lastUser; i++) getInputs(i)
+  for(let i = 1; i <= state.lastUser; i++) getInputs(i)
+
+  // check if no user added
+  if (checkIfEmpty()) {
+    console.log('Empty list')
+    return
+  }
+
   let json = null
   try {
     const res = await fetch('/', {
