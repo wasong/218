@@ -10,6 +10,8 @@ const usersJSONPath = path.join(__dirname, 'data', 'user.json')
 const formPage = fs.readFileSync(path.join(__dirname, 'form.html'))
 const formStyles = fs.readFileSync(path.join(__dirname, 'form.css'))
 const formScript = fs.readFileSync(path.join(__dirname, 'form.js'))
+const usersPage = fs.readFileSync(path.join(__dirname, 'users.html'))
+const usersScript = fs.readFileSync(path.join(__dirname, 'users.js'))
 const usersJSON = (() => {
   let fileContents = null
   try {
@@ -29,14 +31,20 @@ const sendFile = (statusCode = 200, contentType, file, res) => {
 
 const handleGET = (req, res) => {
   switch (req.url) {
-    case '/data/users.json':
-      sendFile(200, "application/javascript", usersJSON, res)
-      return
     case '/form.js':
       sendFile(200, "application/javascript", formScript, res)
       return
     case '/form.css':
       sendFile(200, "text/css", formStyles, res)
+      return
+    case '/data/users.json':
+      sendFile(200, "application/javascript", usersJSON, res)
+      return
+    case '/users.html':
+      sendFile(200, "text/html", usersPage, res)
+      return
+    case '/users.js':
+      sendFile(200, "application/javascript", usersScript, res)
       return
     case '/':
       sendFile(200, "text/html", formPage, res)
@@ -74,7 +82,7 @@ const handlePOST = (req, res) => {
 
           // console.log('After')
           // console.log(parsedJSON)
-          fs.writeFileSync(userFilePath, JSON.stringify(parsedJSON))
+          fs.writeFileSync(usersJSONPath, JSON.stringify(parsedJSON))
         } catch (err) {
           console.log(err)
           fs.writeFileSync(usersJSONPath, data)

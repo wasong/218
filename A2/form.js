@@ -61,7 +61,7 @@ const save = async () => {
 
   // check if no user added
   if (checkIfEmpty()) {
-    console.log('Empty list')
+    alert('Empty List!')
     return
   }
 
