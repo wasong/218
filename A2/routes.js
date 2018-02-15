@@ -1,10 +1,25 @@
+'use strict'
+
 const fs = require('fs')
 const path = require('path')
 const qs = require('querystring');
 
+// important file paths
+const usersJSONPath = path.join(__dirname, 'data', 'user.json')
+
 const formPage = fs.readFileSync(path.join(__dirname, 'form.html'))
 const formStyles = fs.readFileSync(path.join(__dirname, 'form.css'))
 const formScript = fs.readFileSync(path.join(__dirname, 'form.js'))
+const usersJSON = (() => {
+  let fileContents = null
+  try {
+    fileContents = fs.readFileSync(usersJSONPath)
+  } catch (err) {
+    fs.writeFileSync(usersJSONPath, JSON.stringify({}))
+    fileContents = fs.readFileSync(usersJSONPath)
+  }
+  return fileContents
+})()
 
 const sendFile = (statusCode = 200, contentType, file, res) => {
   res.writeHead(statusCode, { "Content-Type": contentType })
@@ -14,6 +29,9 @@ const sendFile = (statusCode = 200, contentType, file, res) => {
 
 const handleGET = (req, res) => {
   switch (req.url) {
+    case '/data/users.json':
+      sendFile(200, "application/javascript", usersJSON, res)
+      return
     case '/form.js':
       sendFile(200, "application/javascript", formScript, res)
       return
@@ -32,23 +50,34 @@ const handlePOST = (req, res) => {
   switch(req.url) {
     case '/':
       const writeToFile = (data) => {
-        const files = fs.readdirSync(path.join(__dirname, 'data'))
-        const fileName = files.find(elem => elem === 'user.json')
-        if (fileName === undefined) {
-          // make file
-          try {
-            fs.writeFileSync(
-              path.join(__dirname, 'data', 'user.json'),
-              data
+        // steps
+        // try to read file
+        // successful: parse contents, append new users starting from lastUser, write to file
+        // failed: create new file and write the body to the new file
+        try {
+          const fileContents = fs.readFileSync(usersJSONPath)
+          const parsedJSON = JSON.parse(fileContents.toString())
+          const parsedData = JSON.parse(data.toString())
+
+          // console.log(parsedJSON)
+          // console.log(parsedData)
+          // console.log('Before')
+          for (let i = 1; i <= parsedData.lastUser; i++) {
+            const user = Object.assign(
+              {},
+              parsedData[i],
+              { id: parsedJSON.lastUser + i }
             )
-          } catch (err) {
-            console.log(err)
+            Object.assign(parsedJSON, { [parsedJSON.lastUser + i]: user })
           }
-        } else {
-          // read file and parse it
-          const fileContents = fs.readFileSync(path.join(__dirname, 'data', fileName))
-          const parsedData = JSON.parse(fileContents.toString())
-          
+          parsedJSON.lastUser = parsedJSON.lastUser + parsedData.lastUser
+
+          // console.log('After')
+          // console.log(parsedJSON)
+          fs.writeFileSync(userFilePath, JSON.stringify(parsedJSON))
+        } catch (err) {
+          console.log(err)
+          fs.writeFileSync(usersJSONPath, data)
         }
       }
 

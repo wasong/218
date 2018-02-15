@@ -1,7 +1,9 @@
+'use strict'
+
 const http = require('http')
 const routes = require('./routes.js')
 
-const PORT = 8888
+const PORT = 28966
 const server = http.createServer()
 
 server.on('request', (req, res) => routes.handler(req, res))
