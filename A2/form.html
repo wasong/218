@@ -10,9 +10,11 @@
     <div class="header">
       <div>Form Works</div>
       <div class="headerButtons">
-        <button class="headerButton" onclick="save()">Log</button>
+        <button class="headerButton" onclick="save()">Save</button>
         <button class="headerButton" onclick="addUser()">Add User</button>
-        <button class="headerButton" onclick="">Button 3</button>
+        <button class="headerButton" onclick="clearDatabase()">Clear Database</button>
+        <a class="headerButton" href="/users.html">Show Users</a>
+        <a class="headerButton" href="/data/users.json">users.json</a>
       </div>
     </div>
     <div class="container">
@@ -38,6 +40,9 @@
               <input type="text" name="email" />
             </div>
           </div>
+          <div class="cardActions">
+            <button class="remove action" onclick="remove(1)">Remove</button>
+          </div>
         </div>
       </div>
     </div>
@@ -59,6 +64,9 @@
           <label class="label" for="email">Email</label>
           <input type="text" name="email" />
         </div>
+      </div>
+      <div class="cardActions">
+        <button class="remove action" onclick="remove()">Remove</button>
       </div>
     </div>
     <script src="/form.js"></script>

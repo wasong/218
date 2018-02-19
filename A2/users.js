@@ -1,4 +1,4 @@
-(async () => {
+const fetchUsers = async () => {
   const data = await fetch('/data/users.json', {
     method: 'GET',
     headers: {
@@ -6,7 +6,7 @@
     },
   })
   const json = await data.json()
-
+  console.log(json)
   const ids = Object.keys(json)
   ids.forEach((id) => {
     const usersContent = document.querySelector('#users')
@@ -22,8 +22,7 @@
         </div>
       `
     }
-
   })
+}
 
-
-})()
+fetchUsers()

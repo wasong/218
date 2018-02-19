@@ -1,5 +1,6 @@
 let state = {
   lastUser: 1,
+  ids: [1],
 }
 
 const setState = (newState) => {
@@ -7,10 +8,10 @@ const setState = (newState) => {
     ...state,
     ...newState,
   }
-  // console.log(state)
+  console.log(state)
 }
 
-const schema = ['first', 'last', 'birthday']
+const schema = ['first', 'last', 'birthday', 'email']
 
 const getInputs = (userID = 1) => {
   const elems = document.querySelector(`#user-${userID}`)
@@ -39,25 +40,31 @@ const addUser = () => {
   const form = template.cloneNode(true)
   form.setAttribute('class', 'card')
   form.setAttribute('id', `user-${lastUser}`)
+  const removeBtn = form.querySelector('.remove')
+  removeBtn.setAttribute('onclick', `remove(${lastUser})`)
 
   const app = document.querySelector(`#app`)
 
   app.append(form)
-  setState({ lastUser })
+  setState({
+    lastUser,
+    ids: [...state.ids, lastUser],
+   })
 }
 
 const log = async () => {
-  for(let i = 1; i <= state.lastUser; i++) getInputs(i)
+  state.ids.forEach(id => getInputs(id))
   console.log(state)
 }
 
 const checkIfEmpty = () => {
+  const { ids } = state
   const sum = schema.reduce((acc, prop) => acc += state[1][prop], '')
-  return state.lastUser === 1 && sum === ''
+  return ids.length > 0 && sum === ''
 }
 
 const save = async () => {
-  for(let i = 1; i <= state.lastUser; i++) getInputs(i)
+  state.ids.forEach(id => getInputs(id))
 
   // check if no user added
   if (checkIfEmpty()) {
@@ -80,4 +87,29 @@ const save = async () => {
     console.log(err)
   }
   console.log(json)
+}
+
+const clearDatabase = async () => {
+  try {
+    const res = await fetch('/clear', {
+      method: 'POST',
+    })
+    console.log(res)
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+const remove = (id) => {
+  if (state.ids.length === 1) {
+    alert('Cannot remove only card!')
+    return
+  }
+  // remove from ids list
+  const idList = state.ids.filter(userID => userID !== id)
+  const form = document.querySelector(`#user-${id}`).remove()
+
+  setState({
+    ids: idList,
+  })
 }

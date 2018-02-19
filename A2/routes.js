@@ -5,7 +5,7 @@ const path = require('path')
 const qs = require('querystring');
 
 // important file paths
-const usersJSONPath = path.join(__dirname, 'data', 'user.json')
+const usersJSONPath = path.join(__dirname, 'data', 'users.json')
 
 const formPage = fs.readFileSync(path.join(__dirname, 'form.html'))
 const formStyles = fs.readFileSync(path.join(__dirname, 'form.css'))
@@ -13,12 +13,11 @@ const formScript = fs.readFileSync(path.join(__dirname, 'form.js'))
 const usersPage = fs.readFileSync(path.join(__dirname, 'users.html'))
 const usersScript = fs.readFileSync(path.join(__dirname, 'users.js'))
 const usersJSON = (() => {
-  let fileContents = null
+  let fileContents = { lastUser: 0 }
   try {
     fileContents = fs.readFileSync(usersJSONPath)
   } catch (err) {
-    fs.writeFileSync(usersJSONPath, JSON.stringify({}))
-    fileContents = fs.readFileSync(usersJSONPath)
+    fs.writeFileSync(usersJSONPath, JSON.stringify(fileContents))
   }
   return fileContents
 })()
@@ -62,35 +61,44 @@ const handlePOST = (req, res) => {
         // try to read file
         // successful: parse contents, append new users starting from lastUser, write to file
         // failed: create new file and write the body to the new file
+        let parsedFile = { lastUser: 0 }
+        let parsedBody = JSON.parse(data.toString())
+
         try {
           const fileContents = fs.readFileSync(usersJSONPath)
-          const parsedJSON = JSON.parse(fileContents.toString())
-          const parsedData = JSON.parse(data.toString())
-
-          // console.log(parsedJSON)
-          // console.log(parsedData)
-          // console.log('Before')
-          for (let i = 1; i <= parsedData.lastUser; i++) {
-            const user = Object.assign(
-              {},
-              parsedData[i],
-              { id: parsedJSON.lastUser + i }
-            )
-            Object.assign(parsedJSON, { [parsedJSON.lastUser + i]: user })
-          }
-          parsedJSON.lastUser = parsedJSON.lastUser + parsedData.lastUser
-
-          // console.log('After')
-          // console.log(parsedJSON)
-          fs.writeFileSync(usersJSONPath, JSON.stringify(parsedJSON))
+          parsedFile = JSON.parse(fileContents.toString())
         } catch (err) {
           console.log(err)
-          fs.writeFileSync(usersJSONPath, data)
         }
+
+        const newFile = {}
+        let newID = parsedFile.lastUser + 1
+        parsedBody.ids.forEach((id, index) => {
+          newID += index
+          const user = Object.assign(
+            {},
+            parsedBody[id],
+            { id: newID }
+          )
+          Object.assign(newFile, parsedFile, { [newID]: user })
+        })
+        newFile.lastUser = newID
+        // console.log('parsedBody', parsedBody)
+        // console.log('newFile', newFile)
+
+        fs.writeFileSync(usersJSONPath, JSON.stringify(newFile))
       }
 
       req.on('data', writeToFile)
       req.on('end', () => res.end(JSON.stringify({ statusCode: 200, message: 'success' })))
+      return
+    case '/clear':
+      try {
+        fs.writeFileSync(usersJSONPath, JSON.stringify({ lastUser: 0 }))
+      } catch (err) {
+        res.end(JSON.stringify({ statusCode: 500, message: 'Server Error: Could not empty json' }))
+      }
+      res.end(JSON.stringify({ statusCode: 200, message: 'success' }))
       return
     default:
       req.on('end', () => res.end(JSON.stringify({ statusCode: 200, message: 'success' })))
