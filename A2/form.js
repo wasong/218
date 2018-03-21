@@ -8,7 +8,6 @@ const setState = (newState) => {
     ...state,
     ...newState,
   }
-  console.log(state)
 }
 
 const schema = ['first', 'last', 'birthday', 'email']
@@ -86,7 +85,6 @@ const save = async () => {
   } catch(err) {
     console.log(err)
   }
-  console.log(json)
 }
 
 const clearDatabase = async () => {
@@ -94,7 +92,6 @@ const clearDatabase = async () => {
     const res = await fetch('/clear', {
       method: 'POST',
     })
-    console.log(res)
   } catch(err) {
     console.log(err)
   }

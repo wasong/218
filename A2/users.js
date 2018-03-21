@@ -2,7 +2,8 @@ const fetchUsers = async () => {
   const data = await fetch('/data/users.json', {
     method: 'GET',
     headers: {
-      'content-type': 'application/json'
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
     },
   })
   const json = await data.json()

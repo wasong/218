@@ -22,8 +22,11 @@ const usersJSON = (() => {
   return fileContents
 })()
 
-const sendFile = (statusCode = 200, contentType, file, res) => {
-  res.writeHead(statusCode, { "Content-Type": contentType })
+const sendFile = (contentType, file, res) => {
+  res.writeHead(200, {
+    "Content-Type": contentType,
+    'Cache-Control': 'no-cache',
+  })
   res.write(file)
   res.end()
 }
@@ -31,25 +34,25 @@ const sendFile = (statusCode = 200, contentType, file, res) => {
 const handleGET = (req, res) => {
   switch (req.url) {
     case '/form.js':
-      sendFile(200, "application/javascript", formScript, res)
+      sendFile("application/javascript", formScript, res)
       return
     case '/form.css':
-      sendFile(200, "text/css", formStyles, res)
+      sendFile("text/css", formStyles, res)
       return
     case '/data/users.json':
-      sendFile(200, "application/javascript", usersJSON, res)
+      sendFile("application/javascript", usersJSON, res)
       return
     case '/users.html':
-      sendFile(200, "text/html", usersPage, res)
+      sendFile("text/html", usersPage, res)
       return
     case '/users.js':
-      sendFile(200, "application/javascript", usersScript, res)
+      sendFile("application/javascript", usersScript, res)
       return
     case '/':
-      sendFile(200, "text/html", formPage, res)
+      sendFile("text/html", formPage, res)
       return
     default:
-      sendFile(200, "text/html", formPage, res)
+      sendFile("text/html", formPage, res)
   }
 }
 
