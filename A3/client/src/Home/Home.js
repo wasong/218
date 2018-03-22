@@ -10,7 +10,7 @@ class Home extends Component {
 
   handleOnLoad = async () => {
     let data = await fetch(`${process.env.API}/hello`)
-    data = data.json()
+    data = await data.json()
     console.log(data)
   }
 
