@@ -4,10 +4,6 @@ import Radium from 'radium'
 
 import flex from 'styles/flex.css'
 
-const styles = {
-  rootClass: '',
-}
-
 class Admin extends Component {
   state = {
     user: '',
@@ -29,6 +25,7 @@ class Admin extends Component {
           label="Username"
           value={this.state.user}
           onChange={this.handleOnChange('user')}
+          fullWidth
         />
         <TextField
           id="pass"
@@ -36,6 +33,7 @@ class Admin extends Component {
           type="password"
           value={this.state.pass}
           onChange={this.handleOnChange('pass')}
+          fullWidth
         />
       </Fragment>
     )

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { Switch, Route, NavLink as RouterLink, Redirect } from 'react-router-dom'
 import Radium from 'radium'
 import flex from 'styles/flex.css'
 
 import Admin from './Admin'
 import CheckIn from './CheckIn'
+
+const NavLink = Radium(RouterLink)
 
 const styles = {
   root: {
@@ -12,6 +14,17 @@ const styles = {
   },
   section: {
     flex: 1,
+    padding: 50,
+  },
+  link: {
+    fontSize: 20,
+    fontWeight: 900,
+    textDecoration: 'none',
+    color: '#333',
+    margin: '20px 0',
+  },
+  activeLink: {
+    color: '#666',
   },
   sectionClass: `${flex.col} ${flex.justCenter} ${flex.alignCenter}`,
 }
@@ -33,8 +46,8 @@ class Routes extends Component {
     return (
       <div style={styles.root} className={flex.flex}>
         <div style={styles.section} className={styles.sectionClass}>
-          <Link to="/checkin">Check In</Link>
-          <Link to="/login">Admin</Link>
+          <NavLink style={styles.link} activeStyle={styles.activeLink} to="/login">Admin</NavLink>
+          <NavLink style={styles.link} activeStyle={styles.activeLink} to="/checkin">Check In</NavLink>
         </div>
         <div style={styles.section} className={styles.sectionClass}>
           <Switch>
