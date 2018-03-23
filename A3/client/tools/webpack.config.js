@@ -61,6 +61,10 @@ const config = {
       'process.env': {
         NODE_ENV: isDebug ? '"development"' : '"production"',
         API: JSON.stringify('http://localhost:9000'),
+        ADMIN: {
+          USER: JSON.stringify(process.env.ADMINUSER || 'admin'),
+          PASS: JSON.stringify(process.env.ADMINPASS || '1234'),
+        },
       },
       __DEV__: isDebug,
     }),
