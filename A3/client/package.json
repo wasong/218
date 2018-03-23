@@ -133,7 +133,15 @@
         "never"
       ],
       "react/jsx-filename-extension": "off",
-      "max-len": "off"
+      "max-len": "off",
+      "jsx-a11y/anchor-is-valid": [
+        "warn",
+        {
+          "aspects": [
+            "invalidHref"
+          ]
+        }
+      ]
     },
     "settings": {
       "import/resolver": {
