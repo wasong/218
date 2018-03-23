@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 import Radium from 'radium'
+
+const styles = {
+  root: {
+    display: 'flex',
+  },
+}
 
 class Login extends Component {
   state = {}
@@ -16,7 +23,10 @@ class Login extends Component {
 
   render() {
     return (
-      <div>HOME</div>
+      <div style={styles.root}>
+        <div>Select</div>
+        <div>Login</div>
+      </div>
     )
   }
 }

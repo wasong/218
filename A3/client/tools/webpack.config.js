@@ -34,6 +34,7 @@ const config = {
       components: path.resolve(__dirname, '../src/components/'),
       theme: path.resolve(__dirname, '../src/styles/theme.js'),
       utils: path.resolve(__dirname, '../src/utils/'),
+      styles: path.resolve(__dirname, '../src/styles/'),
     },
   },
 
