@@ -44,14 +44,18 @@ const adminSignOut = () => (dispatch) => {
 
 const startSession = id => async (dispatch) => {
   // handle POST request to start session
+  let res = null
   try {
-    const res = await fetch(`${process.env.API}/start`, {
+    const data = await fetch(`${process.env.API}/start`, {
       body: JSON.stringify({ id }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       cache: 'no-cache',
       method: 'POST',
-      mode: 'no-cors',
     })
 
+    res = await data.json()
     console.log(res)
   } catch (err) {
     console.log(err)

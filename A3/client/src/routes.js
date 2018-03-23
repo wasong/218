@@ -42,9 +42,9 @@ class Routes extends Component {
   }
 
   handleOnLoad = async () => {
-    let data = await fetch(`${process.env.API}/`)
-    data = await data.json()
-    console.log(data)
+    // let data = await fetch(`${process.env.API}/`)
+    // data = await data.json()
+    // console.log(data)
   }
 
   render() {

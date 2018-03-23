@@ -21,7 +21,15 @@ const userSchema = new Schema({
   },
 })
 
+const sessionSchema = new Schema({
+  id: {
+    type: String,
+    max: 120,
+  },
+})
+
 const UserModel = mongoose.model('user', userSchema)
+const SessionModel = mongoose.model('session', sessionSchema)
 
 const createUser = ({ uname, age, pass }) => {
   const User = new UserModel({
@@ -39,8 +47,19 @@ const createUser = ({ uname, age, pass }) => {
   })
 }
 
+const startSession = (id) => {
+  SessionModel.findOneAndUpdate(
+    { id },
+    { active: true },
+    (props) => {
+      console.log(props)
+    },
+  )
+}
+
 const actions = {
   createUser,
+  startSession,
 }
 
 export default actions
