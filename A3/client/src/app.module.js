@@ -42,8 +42,20 @@ const adminSignOut = () => (dispatch) => {
   dispatch(adminSignOutSuccess())
 }
 
-const startSession = id => (dispatch) => {
+const startSession = id => async (dispatch) => {
   // handle POST request to start session
+  try {
+    const res = await fetch(`${process.env.API}/start`, {
+      body: JSON.stringify({ id }),
+      cache: 'no-cache',
+      method: 'POST',
+      mode: 'no-cors',
+    })
+
+    console.log(res)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const endSession = id => (dispatch) => {

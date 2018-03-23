@@ -31,7 +31,9 @@ class Landing extends Component {
   }
 
   handleCheckIn = () => {
-
+    if (this.state.id !== '') {
+      this.props.actions.startSession(this.state.id)
+    }
   }
 
   handleViewHistory = () => {
