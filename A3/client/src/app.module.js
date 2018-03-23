@@ -4,6 +4,8 @@
 const ADMIN_SIGNIN_SUCCESS = 'ADMIN_SIGNIN_SUCCESS'
 const ADMIN_SIGNIN_ERROR = 'ADMIN_SIGNIN_ERROR'
 const ADMIN_SIGNOUT_SUCCESS = 'ADMIN_SIGNOUT_SUCCESS'
+const ACTIVE_SESSION_SUCCESS = 'ACTIVE_SESSION_SUCCESS'
+const END_SESSION_SUCCESS = 'END_SESSION_SUCCESS'
 
 // ------------------------------------
 // Actions
@@ -20,6 +22,14 @@ const adminSignOutSuccess = () => ({
   type: ADMIN_SIGNOUT_SUCCESS,
 })
 
+const activeSessionSuccess = () => ({
+  type: ACTIVE_SESSION_SUCCESS,
+})
+
+const endSessionSuccess = () => ({
+  type: END_SESSION_SUCCESS,
+})
+
 const adminSignIn = (user, pass) => (dispatch) => {
   if (user === process.env.ADMIN.USER && pass === process.env.ADMIN.PASS) {
     dispatch(adminSignInSuccess())
@@ -32,9 +42,19 @@ const adminSignOut = () => (dispatch) => {
   dispatch(adminSignOutSuccess())
 }
 
+const startSession = id => (dispatch) => {
+  // handle POST request to start session
+}
+
+const endSession = id => (dispatch) => {
+  // handle POST request to start session
+}
+
 export const actions = {
   adminSignIn,
   adminSignOut,
+  startSession,
+  endSession,
 }
 
 // ------------------------------------
@@ -55,14 +75,23 @@ const ACTION_HANDLERS = {
     adminSignedIn: false,
     adminSignInError: false,
   }),
+  [ACTIVE_SESSION_SUCCESS]: state => ({
+    ...state,
+    activeSession: true,
+  }),
+  [END_SESSION_SUCCESS]: state => ({
+    ...state,
+    activeSession: false,
+  }),
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  adminSignIn: false,
+  adminSignedIn: false,
   adminSignInError: false,
+  activeSession: false,
 }
 
 export default function reducer(state = initialState, action) {

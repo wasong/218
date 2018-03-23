@@ -10,7 +10,12 @@ import { actions } from '../app.module'
 const styles = {
   signIn: {
     height: 50,
-    margin: '20px 0 10px',
+    margin: '10px 0',
+  },
+  error: {
+    fontSize: 12,
+    color: 'red',
+    margin: '10px 0',
   },
 }
 
@@ -31,9 +36,9 @@ class Admin extends Component {
   }
 
   render() {
-    const { signedIn, signedInError } = this.props
+    const { signedIn, signInError } = this.props
 
-    if (signedIn) return 'Hey! You&#39re signed in already!'
+    if (signedIn) return <div>Hey! You&#39;re signed in already!</div>
 
     return (
       <Fragment>
@@ -41,7 +46,6 @@ class Admin extends Component {
         <TextField
           id="user"
           label="Username"
-          error={signedInError}
           value={this.state.user}
           onChange={this.handleOnChange('user')}
           fullWidth
@@ -54,6 +58,11 @@ class Admin extends Component {
           onChange={this.handleOnChange('pass')}
           fullWidth
         />
+        {
+          signInError
+          ? <div style={styles.error}>Your username or password seem to be wrong :(</div>
+          : null
+        }
         <Button
           color="primary"
           onClick={this.handleSignIn}
@@ -69,7 +78,7 @@ class Admin extends Component {
 
 const mapStateToProps = ({ app }) => ({
   signedIn: app.adminSignedIn,
-  signedInError: app.adminSignedInError,
+  signInError: app.adminSignInError,
 })
 
 const mapDispatchToProps = dispatch => ({
