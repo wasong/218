@@ -1,8 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import TextField from 'material-ui/TextField'
+import Button from 'material-ui/Button'
 import Radium from 'radium'
 
-import flex from 'styles/flex.css'
+const styles = {
+  signIn: {
+    height: 50,
+    margin: '20px 0 10px',
+  },
+}
 
 class Admin extends Component {
   state = {
@@ -35,6 +41,9 @@ class Admin extends Component {
           onChange={this.handleOnChange('pass')}
           fullWidth
         />
+        <Button color="primary" style={styles.signIn} fullWidth>
+          Sign In
+        </Button>
       </Fragment>
     )
   }

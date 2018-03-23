@@ -16,6 +16,11 @@ const styles = {
     flex: 1,
     padding: 50,
   },
+  loginSection: {
+    // '@media (max-width: 500px)': {
+    //   flex: 2.5,
+    // },
+  },
   link: {
     fontSize: 20,
     fontWeight: 900,
@@ -49,7 +54,7 @@ class Routes extends Component {
           <NavLink style={styles.link} activeStyle={styles.activeLink} to="/login">Admin</NavLink>
           <NavLink style={styles.link} activeStyle={styles.activeLink} to="/checkin">Check In</NavLink>
         </div>
-        <div style={styles.section} className={styles.sectionClass}>
+        <div style={[styles.section, styles.loginSection]} className={styles.sectionClass}>
           <Switch>
             <Route exact path="/checkin" component={CheckIn} />
             <Route exact path="/login" component={Admin} />
