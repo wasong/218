@@ -13,7 +13,7 @@ const styles = {
   section: {
     flex: 1,
   },
-  pageLinksClass: `${flex.col} ${flex.justCenter} ${flex.alignCenter}`,
+  sectionClass: `${flex.col} ${flex.justCenter} ${flex.alignCenter}`,
 }
 
 class Routes extends Component {
@@ -32,11 +32,11 @@ class Routes extends Component {
   render() {
     return (
       <div style={styles.root} className={flex.flex}>
-        <div style={styles.section} className={styles.pageLinksClass}>
+        <div style={styles.section} className={styles.sectionClass}>
           <Link to="/checkin">Check In</Link>
           <Link to="/login">Admin</Link>
         </div>
-        <div style={styles.section}>
+        <div style={styles.section} className={styles.sectionClass}>
           <Switch>
             <Route exact path="/checkin" component={CheckIn} />
             <Route exact path="/login" component={Admin} />
