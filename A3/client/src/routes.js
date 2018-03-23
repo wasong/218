@@ -7,9 +7,13 @@ import Admin from './Admin'
 import CheckIn from './CheckIn'
 
 const styles = {
+  root: {
+    minHeight: '100vh',
+  },
   section: {
     flex: 1,
   },
+  pageLinksClass: `${flex.col} ${flex.justCenter} ${flex.alignCenter}`,
 }
 
 class Routes extends Component {
@@ -27,8 +31,8 @@ class Routes extends Component {
 
   render() {
     return (
-      <div className={flex.flex}>
-        <div style={styles.section}>
+      <div style={styles.root} className={flex.flex}>
+        <div style={styles.section} className={styles.pageLinksClass}>
           <Link to="/checkin">Check In</Link>
           <Link to="/login">Admin</Link>
         </div>
