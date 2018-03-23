@@ -1,6 +1,8 @@
+import { actions } from './mongo'
+
 // export routes
 const routes = (app) => {
-  app.get('/hello', (req, res) => {
+  app.get('/', (req, res) => {
     res.send({ hi: 'Hello World' })
   })
 }

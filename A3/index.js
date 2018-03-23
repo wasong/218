@@ -1,7 +1,6 @@
 // entry point for application
 import express from 'express'
 import bodyParser from 'body-parser'
-// import mongoose from 'mongoose'
 
 import routes from './routes'
 
@@ -24,9 +23,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
 }
-
-// db setup
-// mongoose.connect('mongodb://localhost:db/db')
 
 routes(app)
 

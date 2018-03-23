@@ -1,12 +1,14 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
-import Home from './Home'
+import Login from './Login'
 
 const Routes = () => (
   <div>
-    <div>BOILERPLATE ACTIVATE!</div>
-    <Home />
+    <Switch>
+      <Route exact path="/login" component={Login} />
+      <Redirect to="/login" />
+    </Switch>
   </div>
 )
 

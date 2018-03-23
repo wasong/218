@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 
-class Home extends Component {
+class Login extends Component {
   state = {}
 
   componentDidMount = () => {
@@ -9,7 +9,7 @@ class Home extends Component {
   }
 
   handleOnLoad = async () => {
-    let data = await fetch(`${process.env.API}/hello`)
+    let data = await fetch(`${process.env.API}/`)
     data = await data.json()
     console.log(data)
   }
@@ -21,7 +21,7 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {}
-Home.defaultProps = {}
+Login.propTypes = {}
+Login.defaultProps = {}
 
-export default Radium(Home)
+export default Radium(Login)
