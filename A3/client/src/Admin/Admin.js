@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Radium from 'radium'
 
+import Landing from './Landing'
 import { actions } from '../app.module'
 
 const styles = {
@@ -38,7 +39,7 @@ class Admin extends Component {
   render() {
     const { signedIn, signInError } = this.props
 
-    if (signedIn) return <div>Hey! You&#39;re signed in already!</div>
+    if (signedIn) return <Landing />
 
     return (
       <Fragment>

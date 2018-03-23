@@ -34,6 +34,10 @@ class Landing extends Component {
 
   }
 
+  handleViewHistory = () => {
+
+  }
+
   render() {
     return (
       <Fragment>
@@ -54,8 +58,8 @@ class Landing extends Component {
           Start Check In
         </Button>
         <Button
-          color="secondary"
-          onClick={this.handleCheckIn}
+          color="default"
+          onClick={this.handleViewHistory}
           style={styles.button}
           fullWidth
         >
