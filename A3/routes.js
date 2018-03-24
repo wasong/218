@@ -10,9 +10,8 @@ const routes = (app) => {
     console.log(req.body)
     const { id } = req.body
     const session = await actions.startSession(id)
-    console.log(session)
     res.header('Access-Control-Allow-Headers', 'Content-Type')
-    res.send({ hi: 'Hello World' })
+    res.send(session)
   })
 }
 

@@ -29,6 +29,7 @@ const sessionSchema = new Schema({
     type: String,
     max: 120,
   },
+  active: Boolean,
 })
 
 const UserModel = mongoose.model('user', userSchema)
@@ -51,13 +52,26 @@ const createUser = ({ uname, age, pass }) => {
 }
 
 const startSession = async (id) => {
-  const data = await SessionModel.findOneAndUpdate(
-    { id },
-    { active: true },
-  )
+  let res = null
+  try {
+    res = await SessionModel.findOneAndUpdate(
+      { id },
+      { active: true },
+    )
 
-  console.log(data)
-  return data
+    if (!res) {
+      const courseSession = new SessionModel({
+        id,
+        active: true,
+      })
+
+      return await courseSession.save()
+    }
+    return res
+  } catch (err) {
+    console.log(err)
+    return null
+  }
 }
 
 const actions = {
