@@ -19,6 +19,13 @@ const routes = (app) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type')
     res.send(session)
   })
+
+  app.post('/end', async (req, res) => {
+    const { id } = req.body
+    const session = await actions.endSession(id)
+    res.header('Access-Control-Allow-Headers', 'Content-Type')
+    res.send(session)
+  })
 }
 
 export default routes

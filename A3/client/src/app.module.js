@@ -4,8 +4,15 @@
 const ADMIN_SIGNIN_SUCCESS = 'ADMIN_SIGNIN_SUCCESS'
 const ADMIN_SIGNIN_ERROR = 'ADMIN_SIGNIN_ERROR'
 const ADMIN_SIGNOUT_SUCCESS = 'ADMIN_SIGNOUT_SUCCESS'
-const ACTIVE_SESSION_SUCCESS = 'ACTIVE_SESSION_SUCCESS'
-const END_SESSION_SUCCESS = 'END_SESSION_SUCCESS'
+const SESSION_UPDATE_SUCCESS = 'SESSION_UPDATE_SUCCESS'
+
+const postConfigs = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  cache: 'no-cache',
+  method: 'POST',
+}
 
 // ------------------------------------
 // Actions
@@ -22,12 +29,9 @@ const adminSignOutSuccess = () => ({
   type: ADMIN_SIGNOUT_SUCCESS,
 })
 
-const activeSessionSuccess = () => ({
-  type: ACTIVE_SESSION_SUCCESS,
-})
-
-const endSessionSuccess = () => ({
-  type: END_SESSION_SUCCESS,
+const sessionUpdateSucccess = session => ({
+  type: SESSION_UPDATE_SUCCESS,
+  session,
 })
 
 const adminSignIn = (user, pass) => (dispatch) => {
@@ -42,33 +46,57 @@ const adminSignOut = () => (dispatch) => {
   dispatch(adminSignOutSuccess())
 }
 
+const checkSession = id => async (dispatch) => {
+  let res = null
+  try {
+    const data = await fetch(`${process.env.API}/session`, {
+      body: JSON.stringify({ id }),
+      ...postConfigs,
+    })
+
+    res = await data.json()
+    dispatch(sessionUpdateSucccess(res))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const startSession = id => async (dispatch) => {
   // handle POST request to start session
   let res = null
   try {
     const data = await fetch(`${process.env.API}/start`, {
       body: JSON.stringify({ id }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-cache',
-      method: 'POST',
+      ...postConfigs,
     })
 
     res = await data.json()
-    console.log(res)
+    dispatch(sessionUpdateSucccess(res))
   } catch (err) {
     console.log(err)
   }
 }
 
-const endSession = id => (dispatch) => {
-  // handle POST request to start session
+const endSession = id => async (dispatch) => {
+  // handle POST request to end session
+  let res = null
+  try {
+    const data = await fetch(`${process.env.API}/end`, {
+      body: JSON.stringify({ id }),
+      ...postConfigs,
+    })
+
+    res = await data.json()
+    dispatch(sessionUpdateSucccess(res))
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 export const actions = {
   adminSignIn,
   adminSignOut,
+  checkSession,
   startSession,
   endSession,
 }
@@ -91,13 +119,9 @@ const ACTION_HANDLERS = {
     adminSignedIn: false,
     adminSignInError: false,
   }),
-  [ACTIVE_SESSION_SUCCESS]: state => ({
+  [SESSION_UPDATE_SUCCESS]: (state, { session }) => ({
     ...state,
-    activeSession: true,
-  }),
-  [END_SESSION_SUCCESS]: state => ({
-    ...state,
-    activeSession: false,
+    session,
   }),
 }
 
@@ -107,7 +131,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   adminSignedIn: false,
   adminSignInError: false,
-  activeSession: false,
+  session: null,
 }
 
 export default function reducer(state = initialState, action) {
