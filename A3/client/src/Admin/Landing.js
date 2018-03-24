@@ -32,6 +32,7 @@ class Landing extends Component {
   }
 
   handleCheckIn = () => {
+    // TODO: check for active session before starting
     if (this.state.id !== '') {
       this.props.actions.startSession(this.state.id)
     }
@@ -78,7 +79,6 @@ class Landing extends Component {
 }
 
 const mapStateToProps = ({ app }) => ({
-  activeSession: app.activeSession,
   session: app.session,
 })
 

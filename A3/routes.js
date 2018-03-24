@@ -26,6 +26,16 @@ const routes = (app) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type')
     res.send(session)
   })
+
+  app.post('/checkIn', async (req, res) => {
+    const response = await actions.checkIn(req.body)
+    if (!response) {
+      res.header('Access-Control-Allow-Headers', 'Content-Type')
+      res.send({ success: false, message: 'Something went wrong!' })
+    } else {
+      res.send({ success: true })
+    }
+  })
 }
 
 export default routes

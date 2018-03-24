@@ -10,18 +10,21 @@ const db = mongoose.connection
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  uname: {
+  name: {
     type: String,
   },
-  age: {
-    type: Number,
-    min: [0, 'not-born-yet'],
-    max: 120,
-  },
-  pass: {
+  userId: {
     type: String,
-    minLength: 4,
   },
+  sessionId: {
+    type: String,
+  },
+  date: {
+    type: String,
+  },
+  // history: {
+  //   // list of courses user checked in
+  // },
 })
 
 const sessionSchema = new Schema({
@@ -36,11 +39,10 @@ const sessionSchema = new Schema({
 const UserModel = mongoose.model('user', userSchema)
 const SessionModel = mongoose.model('session', sessionSchema)
 
-const createUser = ({ uname, age, pass }) => {
+const createUser = ({ name, date }) => {
   const User = new UserModel({
-    uname,
-    age,
-    pass,
+    name,
+    date,
   })
 
   User.save((err) => {
@@ -55,7 +57,7 @@ const createUser = ({ uname, age, pass }) => {
 const getSession = async (id) => {
   let res = null
   try {
-    res = await SessionModel.find({ id })
+    res = await SessionModel.findOne({ id })
 
     return res
   } catch (err) {
@@ -64,13 +66,13 @@ const getSession = async (id) => {
   }
 }
 
-const updateSession = async (id, active) => {
+const updateSession = async (id, update) => {
   let res = null
 
   try {
     res = await SessionModel.findOneAndUpdate(
       { id },
-      { active },
+      update,
       {
         new: true,
         upsert: true,
@@ -84,14 +86,29 @@ const updateSession = async (id, active) => {
   }
 }
 
-const startSession = id => updateSession(id, true)
-const endSession = id => updateSession(id, false)
+const startSession = id => updateSession(id, { active: true })
+const endSession = id => updateSession(id, { active: false })
+
+const checkIn = async (student) => {
+  const session = getSession(student.id)
+
+  if (session && session.active) {
+    return updateSession(student.id, {
+      students: [
+        ...session.students,
+        student,
+      ],
+    })
+  }
+  return null
+}
 
 const actions = {
   createUser,
   getSession,
   startSession,
   endSession,
+  checkIn,
 }
 
 export default actions

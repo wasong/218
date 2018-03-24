@@ -5,6 +5,9 @@ const ADMIN_SIGNIN_SUCCESS = 'ADMIN_SIGNIN_SUCCESS'
 const ADMIN_SIGNIN_ERROR = 'ADMIN_SIGNIN_ERROR'
 const ADMIN_SIGNOUT_SUCCESS = 'ADMIN_SIGNOUT_SUCCESS'
 const SESSION_UPDATE_SUCCESS = 'SESSION_UPDATE_SUCCESS'
+// TODO: handle session update error
+const STUDENT_CHECKIN_SUCCESS = 'STUDENT_CHECKIN_SUCCESS'
+const STUDENT_CHECKIN_ERROR = 'STUDENT_CHECKIN_ERROR'
 
 const postConfigs = {
   headers: {
@@ -32,6 +35,14 @@ const adminSignOutSuccess = () => ({
 const sessionUpdateSucccess = session => ({
   type: SESSION_UPDATE_SUCCESS,
   session,
+})
+
+const studentcheckInSuccess = () => ({
+  type: STUDENT_CHECKIN_SUCCESS,
+})
+
+const studentcheckInError = () => ({
+  type: STUDENT_CHECKIN_ERROR,
 })
 
 const adminSignIn = (user, pass) => (dispatch) => {
@@ -93,12 +104,31 @@ const endSession = id => async (dispatch) => {
   }
 }
 
+const checkIn = student => async (dispatch) => {
+  let res = null
+  try {
+    res = await fetch(`${process.env.API}/checkIn`, {
+      body: JSON.stringify(student),
+      ...postConfigs,
+    })
+
+    if (res.success) {
+      dispatch(studentcheckInSuccess())
+    } else {
+      dispatch(studentcheckInError())
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const actions = {
   adminSignIn,
   adminSignOut,
   checkSession,
   startSession,
   endSession,
+  checkIn,
 }
 
 // ------------------------------------
@@ -123,6 +153,16 @@ const ACTION_HANDLERS = {
     ...state,
     session,
   }),
+  [STUDENT_CHECKIN_SUCCESS]: state => ({
+    ...state,
+    checkInSuccess: true,
+    checkInError: false,
+  }),
+  [STUDENT_CHECKIN_ERROR]: state => ({
+    ...state,
+    checkInSuccess: false,
+    checkInError: true,
+  }),
 }
 
 // ------------------------------------
@@ -131,6 +171,8 @@ const ACTION_HANDLERS = {
 const initialState = {
   adminSignedIn: false,
   adminSignInError: false,
+  checkInSuccess: false,
+  checkInError: false,
   session: {
     id: null,
     active: false,
