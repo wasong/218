@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link as RouterLink } from 'react-router-dom'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import Button from 'material-ui/Button'
 import Radium from 'radium'
 
@@ -19,9 +20,18 @@ const styles = {
   },
 }
 
-const History = props => (
+const History = ({ session }) => (
   <Fragment>
     <h2>History</h2>
+    <List>
+      {
+        session.students.map(s => (
+          <ListItem button>
+            <ListItemText primary={s.name} />
+          </ListItem>
+        ))
+      }
+    </List>
     <Link style={styles.link} to="/">
       <Button
         color="secondary"
