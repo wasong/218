@@ -51,18 +51,30 @@ const createUser = ({ uname, age, pass }) => {
   })
 }
 
-const startSession = async (id) => {
+const getSession = async (id) => {
+  let res = null
+  try {
+    res = await SessionModel.find({ id })
+
+    return res
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
+const updateSession = async (id, active) => {
   let res = null
   try {
     res = await SessionModel.findOneAndUpdate(
       { id },
-      { active: true },
+      { active },
     )
 
     if (!res) {
       const courseSession = new SessionModel({
         id,
-        active: true,
+        active,
       })
 
       return await courseSession.save()
@@ -74,9 +86,14 @@ const startSession = async (id) => {
   }
 }
 
+const startSession = id => updateSession(id, true)
+const endSession = id => updateSession(id, false)
+
 const actions = {
   createUser,
+  getSession,
   startSession,
+  endSession,
 }
 
 export default actions
