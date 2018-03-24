@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
 
+// Set mongoose promise to use native ES6 Promise
+mongoose.Promise = Promise
+
 // db setup
 mongoose.connect(`mongodb://${process.env.DBUSER || 'wasong'}:${process.env.DBPASS || 'wasong'}@ds123259.mlab.com:23259/wasong`)
 
@@ -47,14 +50,14 @@ const createUser = ({ uname, age, pass }) => {
   })
 }
 
-const startSession = (id) => {
-  SessionModel.findOneAndUpdate(
+const startSession = async (id) => {
+  const data = await SessionModel.findOneAndUpdate(
     { id },
     { active: true },
-    (props) => {
-      console.log(props)
-    },
   )
+
+  console.log(data)
+  return data
 }
 
 const actions = {
