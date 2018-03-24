@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Radium from 'radium'
 
+import ActiveSession from './ActiveSession'
 import { actions } from '../app.module'
 
 const styles = {
@@ -22,7 +23,7 @@ const styles = {
 class Landing extends Component {
   state = {
     id: '',
-  }
+  }g
 
   handleOnChange = name => (event) => {
     this.setState({
@@ -41,6 +42,10 @@ class Landing extends Component {
   }
 
   render() {
+    const { actions, session } = this.props
+
+    if (session.active) return <ActiveSession session={session} onEndSession={actions.endSession} />
+
     return (
       <Fragment>
         <h2>-</h2>
@@ -74,6 +79,7 @@ class Landing extends Component {
 
 const mapStateToProps = ({ app }) => ({
   activeSession: app.activeSession,
+  session: app.session,
 })
 
 const mapDispatchToProps = dispatch => ({
