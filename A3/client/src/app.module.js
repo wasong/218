@@ -8,6 +8,7 @@ const SESSION_UPDATE_SUCCESS = 'SESSION_UPDATE_SUCCESS'
 // TODO: handle session update error
 const STUDENT_CHECKIN_SUCCESS = 'STUDENT_CHECKIN_SUCCESS'
 const STUDENT_CHECKIN_ERROR = 'STUDENT_CHECKIN_ERROR'
+const STUDENT_CHECKIN_CLEAR = 'STUDENT_CHECKIN_CLEAR'
 
 const postConfigs = {
   headers: {
@@ -37,12 +38,16 @@ const sessionUpdateSucccess = session => ({
   session,
 })
 
-const studentcheckInSuccess = () => ({
+const studentCheckInSuccess = () => ({
   type: STUDENT_CHECKIN_SUCCESS,
 })
 
-const studentcheckInError = () => ({
+const studentCheckInError = () => ({
   type: STUDENT_CHECKIN_ERROR,
+})
+
+const studentCheckInClear = () => ({
+  type: STUDENT_CHECKIN_CLEAR,
 })
 
 const adminSignIn = (user, pass) => (dispatch) => {
@@ -115,13 +120,17 @@ const checkIn = student => async (dispatch) => {
     res = await res.json()
     console.log(res)
     if (res.success) {
-      dispatch(studentcheckInSuccess())
+      dispatch(studentCheckInSuccess())
     } else {
-      dispatch(studentcheckInError())
+      dispatch(studentCheckInError())
     }
   } catch (err) {
     console.log(err)
   }
+}
+
+const clearCheckin = () => (dispatch) => {
+  dispatch(studentCheckInClear())
 }
 
 export const actions = {
@@ -131,6 +140,7 @@ export const actions = {
   startSession,
   endSession,
   checkIn,
+  clearCheckin,
 }
 
 // ------------------------------------
@@ -164,6 +174,11 @@ const ACTION_HANDLERS = {
     ...state,
     checkInSuccess: false,
     checkInError: true,
+  }),
+  [STUDENT_CHECKIN_CLEAR]: state => ({
+    ...state,
+    checkInSuccess: false,
+    checkInError: false,
   }),
 }
 

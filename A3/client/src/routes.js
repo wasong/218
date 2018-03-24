@@ -5,6 +5,7 @@ import flex from 'styles/flex.css'
 
 import Admin from './Admin'
 import CheckIn from './CheckIn'
+import History from './History'
 
 const NavLink = Radium(RouterLink)
 
@@ -58,6 +59,7 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/checkin" component={CheckIn} />
             <Route exact path="/login" component={Admin} />
+            <Route exact path="/history" component={History} />
             <Redirect to="/login" />
           </Switch>
         </div>

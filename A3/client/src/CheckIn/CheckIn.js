@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Radium from 'radium'
 
+import Success from './Success'
 import { actions } from '../app.module'
 
 const styles = {
@@ -38,14 +39,22 @@ class CheckIn extends Component {
   }
 
   handleCheckIn = () => {
+    const { id, name, studentId } = this.state
     // TODO: check for active session before starting
     if (this.checkInputFields()) {
-      this.props.actions.checkIn(this.state)
+      this.props.actions.checkIn({
+        id,
+        name,
+        studentId,
+        date: new Date(),
+      })
     }
   }
 
   render() {
-    const { actions } = this.props
+    const { checkInSuccess, checkInError, actions } = this.props
+
+    if (checkInSuccess) return <Success onClearCheckIn={actions.clearCheckin} />
 
     return (
       <Fragment>
@@ -85,7 +94,8 @@ class CheckIn extends Component {
 }
 
 const mapStateToProps = ({ app }) => ({
-  session: app.session,
+  checkInSuccess: app.checkInSuccess,
+  checkInError: app.checkInError,
 })
 
 const mapDispatchToProps = dispatch => ({

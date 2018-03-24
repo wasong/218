@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { Link as RouterLink } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
@@ -7,6 +8,8 @@ import Radium from 'radium'
 
 import ActiveSession from './ActiveSession'
 import { actions } from '../app.module'
+
+const Link = Radium(RouterLink)
 
 const styles = {
   button: {
@@ -17,6 +20,9 @@ const styles = {
     fontSize: 12,
     color: 'red',
     margin: '10px 0',
+  },
+  link: {
+    textDecoration: 'none',
   },
 }
 
@@ -36,10 +42,6 @@ class Landing extends Component {
     if (this.state.id !== '') {
       this.props.actions.startSession(this.state.id)
     }
-  }
-
-  handleViewHistory = () => {
-
   }
 
   render() {
@@ -65,14 +67,15 @@ class Landing extends Component {
         >
           Start Check In
         </Button>
-        <Button
-          color="default"
-          onClick={this.handleViewHistory}
-          style={styles.button}
-          fullWidth
-        >
-          View History
-        </Button>
+        <Link style={styles.link} to="/history">
+          <Button
+            color="default"
+            style={styles.button}
+            fullWidth
+          >
+            View History
+          </Button>
+        </Link>
       </Fragment>
     )
   }
