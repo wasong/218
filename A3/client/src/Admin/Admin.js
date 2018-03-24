@@ -43,7 +43,7 @@ class Admin extends Component {
 
     return (
       <Fragment>
-        <h2>-</h2>
+        <h2>Admin</h2>
         <TextField
           id="user"
           label="Username"

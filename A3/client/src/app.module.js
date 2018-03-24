@@ -131,7 +131,10 @@ const ACTION_HANDLERS = {
 const initialState = {
   adminSignedIn: false,
   adminSignInError: false,
-  session: null,
+  session: {
+    id: null,
+    active: false,
+  },
 }
 
 export default function reducer(state = initialState, action) {

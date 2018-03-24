@@ -11,11 +11,10 @@ const styles = {
 
 const ActiveSession = ({ session, onEndSession }) => (
   <Fragment>
-    <h2>Status: {session.active ? 'Active' : 'Inactive'}</h2>
-    <div>{session.id}</div>
+    <h2>Session: {session.id} Status: {session.active ? 'Active' : 'Inactive'}</h2>
     <Button
       color="secondary"
-      onClick={this.onEndSession}
+      onClick={() => onEndSession(session.id)}
       style={styles.button}
       fullWidth
     >

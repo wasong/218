@@ -23,7 +23,7 @@ const styles = {
 class Landing extends Component {
   state = {
     id: '',
-  }g
+  }
 
   handleOnChange = name => (event) => {
     this.setState({
@@ -48,7 +48,7 @@ class Landing extends Component {
 
     return (
       <Fragment>
-        <h2>-</h2>
+        <h2>Admin</h2>
         <TextField
           id="id"
           label="Check In ID"

@@ -30,6 +30,7 @@ const sessionSchema = new Schema({
     max: 120,
   },
   active: Boolean,
+  students: [String],
 })
 
 const UserModel = mongoose.model('user', userSchema)
@@ -65,20 +66,17 @@ const getSession = async (id) => {
 
 const updateSession = async (id, active) => {
   let res = null
+
   try {
     res = await SessionModel.findOneAndUpdate(
       { id },
       { active },
+      {
+        new: true,
+        upsert: true,
+      },
     )
 
-    if (!res) {
-      const courseSession = new SessionModel({
-        id,
-        active,
-      })
-
-      return await courseSession.save()
-    }
     return res
   } catch (err) {
     console.log(err)
