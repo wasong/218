@@ -9,6 +9,9 @@ const SESSION_UPDATE_SUCCESS = 'SESSION_UPDATE_SUCCESS'
 const STUDENT_CHECKIN_SUCCESS = 'STUDENT_CHECKIN_SUCCESS'
 const STUDENT_CHECKIN_ERROR = 'STUDENT_CHECKIN_ERROR'
 const STUDENT_CHECKIN_CLEAR = 'STUDENT_CHECKIN_CLEAR'
+const FETCH_SESSIONS_REQUEST = 'FETCH_SESSIONS_REQUEST'
+const FETCH_SESSIONS_SUCCESS = 'FETCH_SESSIONS_SUCCESS'
+const FETCH_SESSIONS_ERROR = 'FETCH_SESSIONS_ERROR'
 
 const postConfigs = {
   headers: {
@@ -48,6 +51,18 @@ const studentCheckInError = () => ({
 
 const studentCheckInClear = () => ({
   type: STUDENT_CHECKIN_CLEAR,
+})
+
+const fetchSessionsRequest = () => ({
+  type: FETCH_SESSIONS_REQUEST,
+})
+
+const fetchSessionsSuccess = () => ({
+  type: FETCH_SESSIONS_SUCCESS,
+})
+
+const fetchSessionsError = () => ({
+  type: FETCH_SESSIONS_ERROR,
 })
 
 const adminSignIn = (user, pass) => (dispatch) => {
@@ -133,6 +148,12 @@ const clearCheckin = () => (dispatch) => {
   dispatch(studentCheckInClear())
 }
 
+const fetchHistory = () => (dispatch) => {
+  dispatch(fetchSessionsRequest())
+
+
+}
+
 export const actions = {
   adminSignIn,
   adminSignOut,
@@ -180,6 +201,22 @@ const ACTION_HANDLERS = {
     checkInSuccess: false,
     checkInError: false,
   }),
+  [FETCH_SESSIONS_REQUEST]: state => ({
+    ...state,
+    fetchSessionsRequest: false,
+  }),
+  [FETCH_SESSIONS_SUCCESS]: (state, { history }) => ({
+    ...state,
+    fetchSessionsRequest: false,
+    fetchSessionsSuccess: true,
+    fetchSessionsError: false,
+    history,
+  }),
+  [FETCH_SESSIONS_ERROR]: state => ({
+    ...state,
+    fetchSessionsSuccess: false,
+    fetchSessionsError: true,
+  }),
 }
 
 // ------------------------------------
@@ -195,6 +232,9 @@ const initialState = {
     active: false,
     students: [],
   },
+  fetchSessionsRequest: false,
+  fetchSessionsSuccess: false,
+  fetchSessionsError: false,
 }
 
 export default function reducer(state = initialState, action) {
