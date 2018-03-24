@@ -94,7 +94,6 @@ const checkIn = async (student) => {
   const session = await getSession(student.id)
 
   if (session && session.active) {
-
     return updateSession(student.id, {
       students: [
         ...session.students,
@@ -105,12 +104,17 @@ const checkIn = async (student) => {
   return null
 }
 
+const getHistory = async () => {
+  return []
+}
+
 const actions = {
   createUser,
   getSession,
   startSession,
   endSession,
   checkIn,
+  getHistory,
 }
 
 export default actions

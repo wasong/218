@@ -39,7 +39,7 @@ class Admin extends Component {
   render() {
     const { signedIn, signInError } = this.props
 
-    if (signedIn) return <Landing />
+    if (signedIn) return <Landing onPush={this.props.history.push} />
 
     return (
       <Fragment>

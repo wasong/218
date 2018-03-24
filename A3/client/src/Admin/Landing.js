@@ -44,6 +44,13 @@ class Landing extends Component {
     }
   }
 
+  handleCheckHistory = () => {
+    if (this.state.id !== '') {
+      this.props.actions.checkSession(this.state.id)
+      this.props.onPush('/history')
+    }
+  }
+
   render() {
     const { actions, session } = this.props
 
@@ -67,15 +74,14 @@ class Landing extends Component {
         >
           Start Check In
         </Button>
-        <Link style={styles.link} to="/history">
-          <Button
-            color="default"
-            style={styles.button}
-            fullWidth
-          >
-            View History
-          </Button>
-        </Link>
+        <Button
+          color="default"
+          style={styles.button}
+          onClick={this.handleCheckHistory}
+          fullWidth
+        >
+          View History
+        </Button>
       </Fragment>
     )
   }

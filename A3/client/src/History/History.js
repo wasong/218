@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link as RouterLink } from 'react-router-dom'
@@ -19,31 +19,23 @@ const styles = {
   },
 }
 
-class History extends Component {
-  componentDidMount = () => {
-
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <h2>History</h2>
-        <Link style={styles.link} to="/">
-          <Button
-            color="secondary"
-            style={styles.button}
-            fullWidth
-          >
-            Home
-          </Button>
-        </Link>
-      </Fragment>
-    )
-  }
-}
+const History = props => (
+  <Fragment>
+    <h2>History</h2>
+    <Link style={styles.link} to="/">
+      <Button
+        color="secondary"
+        style={styles.button}
+        fullWidth
+      >
+        Home
+      </Button>
+    </Link>
+  </Fragment>
+)
 
 const mapStateToProps = ({ app }) => ({
-  signedIn: app.adminSignedIn,
+  session: app.session,
 })
 
 const mapDispatchToProps = dispatch => ({

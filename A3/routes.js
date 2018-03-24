@@ -37,6 +37,11 @@ const routes = (app) => {
       res.send({ success: true })
     }
   })
+
+  app.get('/history', async (req, res) => {
+    const history = await actions.getHistory()
+    res.send(history)
+  })
 }
 
 export default routes
