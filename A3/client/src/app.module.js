@@ -112,6 +112,8 @@ const checkIn = student => async (dispatch) => {
       ...postConfigs,
     })
 
+    res = await res.json()
+    console.log(res)
     if (res.success) {
       dispatch(studentcheckInSuccess())
     } else {
@@ -176,6 +178,7 @@ const initialState = {
   session: {
     id: null,
     active: false,
+    students: [],
   },
 }
 

@@ -29,6 +29,7 @@ const routes = (app) => {
 
   app.post('/checkIn', async (req, res) => {
     const response = await actions.checkIn(req.body)
+    console.log(response)
     if (!response) {
       res.header('Access-Control-Allow-Headers', 'Content-Type')
       res.send({ success: false, message: 'Something went wrong!' })

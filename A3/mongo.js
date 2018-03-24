@@ -20,7 +20,8 @@ const userSchema = new Schema({
     type: String,
   },
   date: {
-    type: String,
+    type: Date,
+    default: Date.now,
   },
   // history: {
   //   // list of courses user checked in
@@ -33,7 +34,7 @@ const sessionSchema = new Schema({
     max: 120,
   },
   active: Boolean,
-  students: [String],
+  students: [Schema.Types.Mixed],
 })
 
 const UserModel = mongoose.model('user', userSchema)
@@ -90,9 +91,10 @@ const startSession = id => updateSession(id, { active: true })
 const endSession = id => updateSession(id, { active: false })
 
 const checkIn = async (student) => {
-  const session = getSession(student.id)
+  const session = await getSession(student.id)
 
   if (session && session.active) {
+
     return updateSession(student.id, {
       students: [
         ...session.students,
