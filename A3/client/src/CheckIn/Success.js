@@ -18,7 +18,7 @@ const styles = {
 const Success = ({ onClearCheckIn }) => (
   <Fragment>
     <h2>Thank you for checking in!</h2>
-    <Link style={styles.link} to="/">
+    <Link style={styles.link} to="/checkin">
       <Button
         color="secondary"
         onClick={onClearCheckIn}

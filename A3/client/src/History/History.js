@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link as RouterLink } from 'react-router-dom'
+import format from 'date-fns/format'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 import Button from 'material-ui/Button'
 import Radium from 'radium'
@@ -22,9 +23,9 @@ const styles = {
 
 class History extends Component {
   componentDidMount = () => {
-    const { signedIn, history } = this.props
+    const { adminSignedIn, history } = this.props
 
-    if (!signedIn) history.push('/login')
+    if (!adminSignedIn) history.push('/login')
   }
 
   render() {
@@ -35,8 +36,8 @@ class History extends Component {
         <List>
           {
             session.students.map(s => (
-              <ListItem button>
-                <ListItemText primary={s.name} />
+              <ListItem key={`${s.date}-${s.name}`} button>
+                <ListItemText primary={`${s.name} ${s.studentId}`} secondary={format(s.date, 'h:m:s:S:SS A, DD MMM, YYYY')} />
               </ListItem>
             ))
           }
@@ -57,7 +58,7 @@ class History extends Component {
 
 const mapStateToProps = ({ app }) => ({
   session: app.session,
-  signedIn: app.signedIn,
+  adminSignedIn: app.adminSignedIn,
 })
 
 const mapDispatchToProps = dispatch => ({
