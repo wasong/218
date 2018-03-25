@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn start
+  /usr/local/bin/node /usr/local/bin/yarn serve
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/p206849/Library/Android/sdk/tools:/Users/p206849/Library/Android/sdk/platform-tools
@@ -24,10 +24,10 @@ npm manifest:
       "start:server": "nodemon index.js --exec babel-node",
       "start:client": "node ./scripts/start-client.js",
       "test": "echo \"Error: no test specified\" && exit 1",
-      "build": "babel index.js -d dist",
-      "build:server": "babel index.js -d dist",
-      "build:client": ,
-      "serve": "node dist/index.js"
+      "build": "concurrently \"yarn build:server\" \"yarn build:client\"",
+      "build:server": "NODE_ENV='production' babel index.js routes.js mongo.js -d dist",
+      "build:client": "node ./scripts/build-client.js",
+      "serve": "concurrently \"yarn build:server && node dist\" \"yarn start:client\""
     },
     "author": "",
     "license": "ISC",
@@ -3332,10 +3332,17 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
 Trace: 
-  SyntaxError: /Users/p206849/Desktop/school/218/A3/package.json: Unexpected token , in JSON at position 451
-      at JSON.parse (<anonymous>)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:1036:59
-      at Generator.next (<anonymous>)
-      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
-      at <anonymous>
+  Error: Command failed.
+  Exit code: 127
+  Command: sh
+  Arguments: -c concurrently "yarn build:server && node dist" "yarn start:client"
+  Directory: /Users/p206849/Desktop/school/218/A3
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
+      at emitTwo (events.js:126:13)
+      at ChildProcess.emit (events.js:214:7)
+      at maybeClose (internal/child_process.js:925:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)

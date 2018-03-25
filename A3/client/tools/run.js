@@ -35,8 +35,8 @@ module.exports = task('run', () => new Promise((resolve) => {
     count += 1
     if (count === 1) {
       bs.init({
-        port: process.env.PORT || 8000,
-        ui: { port: Number(process.env.PORT || 8000) + 1 },
+        port: process.env.PORT || 28966,
+        ui: { port: Number(process.env.PORT || 28966) + 1 },
         server: {
           baseDir: 'public',
           middleware: [

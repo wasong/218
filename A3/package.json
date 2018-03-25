@@ -8,10 +8,10 @@
     "start:server": "nodemon index.js --exec babel-node",
     "start:client": "node ./scripts/start-client.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel index.js -d dist",
-    "build:server": "NODE_ENV='production' babel index.js -d dist",
+    "build": "concurrently \"yarn build:server\" \"yarn build:client\"",
+    "build:server": "NODE_ENV='production' babel index.js routes.js mongo.js -d dist",
     "build:client": "node ./scripts/build-client.js",
-    "serve": "node dist/index.js"
+    "serve": "concurrently \"npm run build:server && node dist\" \"npm run start:client\""
   },
   "author": "",
   "license": "ISC",

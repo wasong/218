@@ -60,7 +60,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: isDebug ? '"development"' : '"production"',
-        API: JSON.stringify('http://localhost:9000'),
+        API: JSON.stringify('http://cmpt218.csil.sfu.ca:9000'),
         ADMIN: {
           USER: JSON.stringify(process.env.ADMINUSER || 'admin'),
           PASS: JSON.stringify(process.env.ADMINPASS || '1234'),
